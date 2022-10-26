@@ -4,7 +4,9 @@ import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_user")
@@ -27,7 +29,8 @@ public class User implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updated;
 
-    //criar lista telefones
+    @OneToMany(mappedBy = "user")
+    private Set<Phone> phones = new HashSet<>();
 
     //criar lista enderecos
 
@@ -53,6 +56,7 @@ public class User implements Serializable {
         return creation;
     }
 
+    //Cria uma data quando a conta for criada
     @PrePersist
     public void  prePersist() {
         creation = Instant.now();
@@ -62,6 +66,7 @@ public class User implements Serializable {
         return updated;
     }
 
+    //Gera uma nova data, sempre que a conta sofrer alguma atualizacao
     @PreUpdate
     public void preUpdate() {
         updated = Instant.now();
@@ -89,6 +94,10 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Phone> getPhones() {
+        return phones;
     }
 
     @Override
