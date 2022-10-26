@@ -32,7 +32,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Phone> phones = new HashSet<>();
 
-    //criar lista enderecos
+    @OneToMany(mappedBy = "user")
+    private Set<Address> addresses = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tb_user_role",
@@ -105,6 +106,14 @@ public class User implements Serializable {
 
     public Set<Phone> getPhones() {
         return phones;
+    }
+
+    public Set<Address> getAddresses() {
+        return addresses;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     @Override
