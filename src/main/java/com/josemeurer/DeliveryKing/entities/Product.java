@@ -1,7 +1,5 @@
 package com.josemeurer.DeliveryKing.entities;
 
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,14 +14,14 @@ public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) //Mudar depois para identity
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private Double price;
 
     @Column(columnDefinition = "TEXT")
     private String description;
+    private String imgUrl;
 
     @ManyToMany
     @JoinTable(name = "tb_product_category",
@@ -35,11 +33,12 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(Long id, String name, Double price, String description) {
+    public Product(Long id, String name, Double price, String description, String imgUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
+        this.imgUrl = imgUrl;
     }
 
     public Long getId() {
@@ -72,6 +71,14 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public Set<Category> getCategories() {

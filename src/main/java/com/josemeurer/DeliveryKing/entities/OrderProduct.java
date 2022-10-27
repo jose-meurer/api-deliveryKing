@@ -23,7 +23,7 @@ public class OrderProduct implements Serializable {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private Double priceProduct; //Valor na data da compra
+    private Double priceHistoryProduct; //Valor na data da compra
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -38,7 +38,7 @@ public class OrderProduct implements Serializable {
         this.quantity = quantity;
         this.observation = observation;
         this.product = product;
-        this.priceProduct = product.getPrice();
+        this.priceHistoryProduct = product.getPrice();
     }
 
     public Long getId() {
@@ -73,12 +73,12 @@ public class OrderProduct implements Serializable {
         this.product = product;
     }
 
-    public Double getPriceProduct() {
-        return priceProduct;
+    public Double getPriceHistoryProduct() {
+        return priceHistoryProduct;
     }
 
     public void setPriceProduct(Double priceProduct) {
-        this.priceProduct = priceProduct;
+        this.priceHistoryProduct = priceProduct;
     }
 
     public Order getOrder() {
