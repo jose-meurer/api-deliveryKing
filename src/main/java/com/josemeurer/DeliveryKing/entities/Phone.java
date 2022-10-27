@@ -17,18 +17,14 @@ public class Phone implements Serializable {
     private String name;
     private String phone;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     public Phone() {
     }
 
-    public Phone(Long id, String name, String phone, User user) {
+    public Phone(Long id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.user = user;
     }
 
     public Long getId() {
@@ -53,14 +49,6 @@ public class Phone implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override

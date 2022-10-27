@@ -30,10 +30,17 @@ public class User implements Serializable {
     private Instant updated;
 
     @OneToMany(mappedBy = "user")
-    private Set<Phone> phones = new HashSet<>();
+    private Set<Address> addresses = new HashSet<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<Address> addresses = new HashSet<>();
+    private Set<Order> orders = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "tb_user_phone",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "phone_id")
+    )
+    private Set<Phone> phones = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tb_user_role",
@@ -114,6 +121,10 @@ public class User implements Serializable {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
     }
 
     @Override

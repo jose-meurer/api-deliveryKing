@@ -23,11 +23,16 @@ public class OrderProduct implements Serializable {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     public OrderProduct() {
     }
 
-    public OrderProduct(Long id, Integer quantity, String observation, Product product) {
+    public OrderProduct(Long id, Order order, Integer quantity, String observation, Product product) {
         this.id = id;
+        this.order = order;
         this.quantity = quantity;
         this.observation = observation;
         this.product = product;
@@ -63,6 +68,14 @@ public class OrderProduct implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
