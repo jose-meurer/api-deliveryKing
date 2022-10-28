@@ -20,7 +20,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable) { //?falta adicionar argumentos opcionais
         Page<ProductMinDTO> page = productService.findAllPaged(pageable);
         return ResponseEntity.ok(page);
     }
@@ -36,7 +36,6 @@ public class ProductController {
         dto = productService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}").buildAndExpand(dto.getId()).toUri();
-
         return ResponseEntity.created(uri).body(dto);
     }
 
