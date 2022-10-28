@@ -29,8 +29,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findAllPaged(Pageable pageable) {
-        Page<Product> list = productRepository.findAll(pageable);
-        return list.map(ProductMinDTO::new);
+        Page<Product> page = productRepository.findAll(pageable);
+        return page.map(ProductMinDTO::new);
     }
 
     @Transactional(readOnly = true)
@@ -50,7 +50,6 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-
         try {
             Product entity = productRepository.getReferenceById(id);
             copyDtoToEntity(dto, entity);

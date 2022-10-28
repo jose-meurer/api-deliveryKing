@@ -29,6 +29,7 @@ public class CategoryController {
         return ResponseEntity.ok(dto);
     }
 
+    @PostMapping
     public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto) {
         dto = categoryService.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
