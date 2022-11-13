@@ -3,6 +3,7 @@ package com.josemeurer.DeliveryKing.entities;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -22,6 +23,12 @@ public class Product implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String description;
     private String imgUrl;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant creation;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updated;
 
     @ManyToMany
     @JoinTable(name = "tb_product_category",
@@ -79,6 +86,24 @@ public class Product implements Serializable {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public Instant getCreated() {
+        return creation;
+    }
+
+    @PrePersist
+    public void  prePersist() {
+        creation = Instant.now();
+    }
+
+    public Instant getUpdated() {
+        return updated;
+    }
+
+    @PreUpdate
+    public void  preUpdate() {
+        updated = Instant.now();
     }
 
     public Set<Category> getCategories() {

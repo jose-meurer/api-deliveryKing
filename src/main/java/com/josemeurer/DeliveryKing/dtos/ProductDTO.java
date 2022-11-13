@@ -3,6 +3,7 @@ package com.josemeurer.DeliveryKing.dtos;
 import com.josemeurer.DeliveryKing.entities.Category;
 import com.josemeurer.DeliveryKing.entities.Product;
 
+import javax.validation.constraints.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -13,11 +14,20 @@ public class ProductDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @Size(min = 2, max = 100, message = "Must be between 2 and 100 characters")
+    @NotBlank(message = "Required field")
     private String name;
+
+    @Positive(message = "Price must be a positive value")
+    @NotNull
     private Double price;
     private String imgUrl;
+
+    @NotBlank(message = "Required field")
     private String description;
 
+    @NotEmpty(message = "Product needs at least one category")
     private Set<CategoryDTO> categories = new HashSet<>();
 
     public ProductDTO() {

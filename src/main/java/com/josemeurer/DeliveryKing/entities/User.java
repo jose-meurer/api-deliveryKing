@@ -1,16 +1,21 @@
 package com.josemeurer.DeliveryKing.entities;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -125,6 +130,37 @@ public class User implements Serializable {
 
     public Set<Order> getOrders() {
         return orders;
+    }
+
+    //UserDetails
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(roles -> new SimpleGrantedAuthority(roles.getAuthority())).toList();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return !roles.isEmpty();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !roles.isEmpty();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return !roles.isEmpty();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !roles.isEmpty();
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.josemeurer.DeliveryKing.dtos;
 
 import com.josemeurer.DeliveryKing.entities.Category;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -10,6 +12,9 @@ public class CategoryDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @Size(min = 2, max = 60, message = "Must be between 2 and 60 characters")
+    @NotBlank(message = "Required field")
     private String name;
 
     public CategoryDTO() {
