@@ -17,18 +17,16 @@ public class Address implements Serializable {
     private String name;
     private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Integer number;
 
     public Address() {
     }
 
-    public Address(Long id, String name, String address, User user) {
+    public Address(Long id, String name, String address, Integer number) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.user = user;
+        this.number = number;
     }
 
     public Long getId() {
@@ -55,12 +53,12 @@ public class Address implements Serializable {
         this.address = address;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     @Override

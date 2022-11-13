@@ -35,12 +35,16 @@ public class User implements UserDetails, Serializable {
     private Instant updated;
 
     @OneToMany(mappedBy = "user")
-    private Set<Address> addresses = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
-    @ManyToMany
+    @OneToMany
+    @JoinTable(name = "tb_user_address",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id")
+    )
+    private Set<Address> addresses = new HashSet<>();
+
+    @OneToMany
     @JoinTable(name = "tb_user_phone",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "phone_id")
