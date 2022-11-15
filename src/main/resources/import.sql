@@ -1,6 +1,6 @@
 --Users
-INSERT INTO tb_user (name, email, password) VALUES ('Bob admin', 'bob@gmail.com', '12345');
-INSERT INTO tb_user (name, email, password) VALUES ('Ana user', 'ana@gmail.com', '12345');
+INSERT INTO tb_user (name, email, password) VALUES ('Bob admin', 'bob@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (name, email, password) VALUES ('Ana user', 'ana@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
 --Phones
 INSERT INTO tb_phone (name, phone) VALUES ('casa', '11999000000');

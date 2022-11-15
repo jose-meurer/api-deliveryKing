@@ -51,7 +51,7 @@ public class User implements UserDetails, Serializable {
     )
     private Set<Phone> phones = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
@@ -149,22 +149,22 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return !roles.isEmpty();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !roles.isEmpty();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return !roles.isEmpty();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return !roles.isEmpty();
+        return true;
     }
 
     @Override
