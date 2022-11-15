@@ -1,7 +1,9 @@
 package com.josemeurer.DeliveryKing.services;
 
+import com.josemeurer.DeliveryKing.entities.Role;
 import com.josemeurer.DeliveryKing.entities.User;
 import com.josemeurer.DeliveryKing.repositories.UserRepository;
+import com.josemeurer.DeliveryKing.services.exceptions.ForbiddenException;
 import com.josemeurer.DeliveryKing.services.exceptions.UnauthorizedException;
 import org.apache.logging.slf4j.SLF4JLogger;
 import org.slf4j.Logger;
@@ -29,5 +31,21 @@ public class AuthService {
         catch (Exception e) {
             throw new UnauthorizedException("Invalid user");
         }
+    }
+
+    public void validateSelfOrAdmin(Long id) { //Verificar se o id pertence ao user
+        User user = authenticated();
+        if (!user.getId().equals(id) && !userHasHole(user, "ROLE_ADMIN")) {
+            throw new ForbiddenException("Access denied");
+        }
+    }
+
+    private boolean userHasHole(User user, String roleName) { //Verifica roles
+        for (Role role : user.getRoles()) {
+            if (role.getAuthority().equals(roleName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
