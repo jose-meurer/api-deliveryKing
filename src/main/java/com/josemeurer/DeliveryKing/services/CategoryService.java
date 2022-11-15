@@ -21,6 +21,9 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private AuthService authService;
+
     @Transactional(readOnly = true)
     public List<CategoryDTO> findAll() {
         List<Category> list = categoryRepository.findAll();
