@@ -8,6 +8,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,13 +19,14 @@ import org.springframework.web.filter.CorsFilter;
 import java.util.Arrays;
 
 @Configuration
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
     private Environment env;
 
-    private static final String[] PUBLIC = { "/products/**", "/h2-console/**" };
+    private static final String[] PUBLIC = { "/h2-console/**" };
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -44,7 +46,6 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
 

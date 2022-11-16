@@ -20,19 +20,21 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @PreAuthorize("permitAll()")
     @GetMapping
     public ResponseEntity<Page<ProductMinDTO>> findAll(Pageable pageable) { //?falta adicionar argumentos opcionais
         Page<ProductMinDTO> page = productService.findAllPaged(pageable);
         return ResponseEntity.ok(page);
     }
 
-    @PreAuthorize("hasAnyRole('USER')") //test
+    @PreAuthorize("permitAll()") //test
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         ProductDTO dto = productService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
         dto = productService.insert(dto);
@@ -41,12 +43,14 @@ public class ProductController {
         return ResponseEntity.created(uri).body(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
         dto = productService.update(id, dto);
         return ResponseEntity.ok(dto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.delete(id);
