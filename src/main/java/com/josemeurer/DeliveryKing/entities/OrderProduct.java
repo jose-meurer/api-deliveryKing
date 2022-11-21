@@ -14,17 +14,22 @@ public class OrderProduct implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private Integer quantity;
 
     @Column(columnDefinition = "TEXT")
     private String observation;
 
+    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column(nullable = false)
     private Double priceHistoryProduct; //Valor na data da compra
 
+    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

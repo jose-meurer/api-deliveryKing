@@ -17,7 +17,11 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private Double price;
 
     @Column(columnDefinition = "TEXT")
@@ -30,6 +34,7 @@ public class Product implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updated;
 
+    @Column(nullable = false)
     @ManyToMany
     @JoinTable(name = "tb_product_category",
         joinColumns = @JoinColumn(name = "product_id"),

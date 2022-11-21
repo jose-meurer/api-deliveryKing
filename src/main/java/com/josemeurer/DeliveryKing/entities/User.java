@@ -22,10 +22,14 @@ public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
@@ -37,6 +41,7 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
+    @Column(nullable = false)
     @OneToMany
     @JoinTable(name = "tb_user_address",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -44,6 +49,7 @@ public class User implements UserDetails, Serializable {
     )
     private Set<Address> addresses = new HashSet<>();
 
+    @Column(nullable = false)
     @OneToMany
     @JoinTable(name = "tb_user_phone",
             joinColumns = @JoinColumn(name = "user_id"),

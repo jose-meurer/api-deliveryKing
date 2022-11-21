@@ -23,11 +23,21 @@ public class Order implements Serializable {
 
     @Column(columnDefinition = "TEXT")
     private String observation;
+
+    @Column(nullable = false)
     private Double productsPrice;
+
+    @Column(nullable = false)
     private Double deliveryFee;
+
+    @Column(nullable = false)
     private Double totalPrice;
+
+    @Column(nullable = false)
     private PaymentMethod paymentMethod;
     private Double moneyChange;
+
+    @Column(nullable = false)
     private OrderStatus status;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
@@ -36,6 +46,7 @@ public class Order implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant deliveryTime; //Hora que o pedido foi entregue
 
+    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -44,10 +55,12 @@ public class Order implements Serializable {
     @JoinColumn(name = "deliveryman_id")
     private Deliveryman deliveryman;
 
+    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(nullable = false)
     @OneToMany(mappedBy = "order")
     private Set<OrderProduct> orderProducts = new HashSet<>();
 

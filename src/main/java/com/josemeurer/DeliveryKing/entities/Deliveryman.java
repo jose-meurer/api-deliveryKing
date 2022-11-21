@@ -16,12 +16,17 @@ public class Deliveryman implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String vehiclePlate;
 
     @OneToMany(mappedBy = "deliveryman")
     private Set<Order> orders = new HashSet<>();
 
+    @Column(nullable = false)
     @ManyToMany
     @JoinTable(name = "tb_deliveryman_phone",
             joinColumns = @JoinColumn(name = "deliveryman_id"),

@@ -16,8 +16,9 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name; //Criar uma validacao para nao ter categorias iguais
 
+    @Column(nullable = false, unique = true)
+    private String name;
     @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
