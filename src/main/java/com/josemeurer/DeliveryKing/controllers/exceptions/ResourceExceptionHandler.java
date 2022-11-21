@@ -6,6 +6,7 @@ import com.josemeurer.DeliveryKing.services.exceptions.ResourceNotFoundException
 import com.josemeurer.DeliveryKing.services.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -34,6 +35,18 @@ public class ResourceExceptionHandler {
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
         err.setError("Database exception");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<StandardError> userNotFound(UsernameNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("User not found");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);

@@ -51,7 +51,7 @@ public class User implements UserDetails, Serializable {
     )
     private Set<Phone> phones = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "tb_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")

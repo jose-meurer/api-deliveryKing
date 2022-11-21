@@ -20,7 +20,7 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    private Logger logger = LoggerFactory.getLogger(SLF4JLogger.class);
+    private static final Logger logger = LoggerFactory.getLogger(SLF4JLogger.class);
 
     @Transactional(readOnly = true)
     public User authenticated() { //Retornando user authorization basic
