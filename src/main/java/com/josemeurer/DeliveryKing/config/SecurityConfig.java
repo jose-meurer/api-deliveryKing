@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,6 +29,7 @@ public class SecurityConfig {
     private Environment env;
 
     private static final String[] PUBLIC = { "/h2-console/**" };
+    private static final String[] GET_PUBLIC = { "/products/**", "/categories/**" };
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -42,14 +45,15 @@ public class SecurityConfig {
         }
 
         http
-                .httpBasic()
+                .authorizeRequests(auth -> auth.antMatchers(PUBLIC).permitAll()
+                        .antMatchers(HttpMethod.GET, GET_PUBLIC).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
-                .authorizeRequests()
-                .antMatchers(PUBLIC).permitAll()
-                .and()
-                .csrf().disable();
-
-        http.cors().configurationSource(corsConfigurationSource());
+                .csrf().disable(); //Desativar para utilizar postman
 
         return http.build();
     }
