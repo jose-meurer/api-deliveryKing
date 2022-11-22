@@ -11,8 +11,10 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,6 +39,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         //H2
@@ -53,6 +60,10 @@ public class SecurityConfig {
                 .formLogin(Customizer.withDefaults())
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
+
+                .sessionManagement(session -> session.maximumSessions(1) //Limita o usuário a ter apenas 1 sessão ativa
+                        .and().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Nenhuma sessão será criada ou usada pelo Spring Security.
+                )
                 .csrf().disable(); //Desativar para utilizar postman
 
         return http.build();

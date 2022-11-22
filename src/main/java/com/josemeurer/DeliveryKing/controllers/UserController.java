@@ -1,8 +1,11 @@
 package com.josemeurer.DeliveryKing.controllers;
 
 import com.josemeurer.DeliveryKing.dtos.UserDTO;
+import com.josemeurer.DeliveryKing.dtos.UserMinDTO;
 import com.josemeurer.DeliveryKing.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,5 +24,12 @@ public class UserController {
     public ResponseEntity<UserDTO> myProfile() {
         UserDTO dto = userService.myProfile();
         return ResponseEntity.ok(dto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<Page<UserMinDTO>> findAllPaged(Pageable pageable) {
+        Page<UserMinDTO> page = userService.findAllPaged(pageable);
+        return ResponseEntity.ok(page);
     }
 }

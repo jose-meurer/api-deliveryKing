@@ -2,6 +2,7 @@ package com.josemeurer.DeliveryKing.entities;
 
 import com.josemeurer.DeliveryKing.entities.enums.OrderStatus;
 import com.josemeurer.DeliveryKing.entities.enums.PaymentMethod;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -46,7 +47,7 @@ public class Order implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant deliveryTime; //Hora que o pedido foi entregue
 
-    @Column(nullable = false)
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
@@ -55,12 +56,12 @@ public class Order implements Serializable {
     @JoinColumn(name = "deliveryman_id")
     private Deliveryman deliveryman;
 
-    @Column(nullable = false)
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(nullable = false)
+    @NotNull
     @OneToMany(mappedBy = "order")
     private Set<OrderProduct> orderProducts = new HashSet<>();
 
