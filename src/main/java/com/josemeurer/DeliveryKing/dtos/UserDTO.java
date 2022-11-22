@@ -6,6 +6,7 @@ import com.josemeurer.DeliveryKing.entities.User;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,22 +19,28 @@ public class UserDTO implements Serializable {
     private String name;
     private String email;
 
+    private Instant creation;
+
+    private Instant updated;
+
     private Set<PhoneDTO> phones = new HashSet<>();
     private Set<AddressDTO> addresses = new HashSet<>();
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String name, String email, Set<Phone> phones, Set<Address> addresses) {
+    public UserDTO(Long id, String name, String email, Instant creation, Instant updated, Set<Phone> phones, Set<Address> addresses) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.creation = creation;
+        this.updated = updated;
         this.phones = phones.stream().map(PhoneDTO::new).collect(Collectors.toSet());
         this.addresses = addresses.stream().map(AddressDTO::new).collect(Collectors.toSet());
     }
 
     public UserDTO(User entity) {
-        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getPhones(), entity.getAddresses());
+        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getCreation(), entity.getUpdated(), entity.getPhones(), entity.getAddresses());
     }
 
     public Long getId() {
@@ -58,6 +65,22 @@ public class UserDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Instant getCreation() {
+        return creation;
+    }
+
+    public void setCreation(Instant creation) {
+        this.creation = creation;
+    }
+
+    public Instant getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Instant updated) {
+        this.updated = updated;
     }
 
     public Set<PhoneDTO> getPhones() {
