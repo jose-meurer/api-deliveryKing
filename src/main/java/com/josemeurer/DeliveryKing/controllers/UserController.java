@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insertUser(@RequestBody UserInsertDTO insertDto) {
+    public ResponseEntity<UserDTO> insertUser(@Valid @RequestBody UserInsertDTO insertDto) {
         UserDTO dto = userService.insertUser(insertDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}").buildAndExpand(dto.getId()).toUri();

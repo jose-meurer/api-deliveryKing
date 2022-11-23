@@ -1,6 +1,8 @@
 package com.josemeurer.DeliveryKing.services;
 
-import com.josemeurer.DeliveryKing.dtos.*;
+import com.josemeurer.DeliveryKing.dtos.UserDTO;
+import com.josemeurer.DeliveryKing.dtos.UserInsertDTO;
+import com.josemeurer.DeliveryKing.dtos.UserMinDTO;
 import com.josemeurer.DeliveryKing.entities.Address;
 import com.josemeurer.DeliveryKing.entities.Phone;
 import com.josemeurer.DeliveryKing.entities.User;
@@ -19,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
+
+    private static final String INITIAL_USER_ROLE = "ROLE_USER";
 
     @Autowired
     private UserRepository userRepository;
@@ -58,11 +62,12 @@ public class UserService {
         User entity = new User();
         insertUserDtoToEntity(dto, entity);
         entity.getRoles().clear();
-        entity.getRoles().add(roleRepository.findByAuthority("ROLE_USER")); //Add com tag de user
+        entity.getRoles().add(roleRepository.findByAuthority(INITIAL_USER_ROLE)); //Add com tag de user
         entity = userRepository.save(entity);
         return new UserDTO(entity);
     }
 
+    @Transactional
     private void insertUserDtoToEntity(UserInsertDTO dto, User entity) {
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
@@ -70,23 +75,11 @@ public class UserService {
 
         entity.getPhones().clear();
         entity.getAddresses().clear();
-        for (PhoneDTO phoneDTO : dto.getPhones()) {
-            Phone phone = new Phone();
-            phone.setName(phoneDTO.getName());
-            phone.setPhone(phoneDTO.getPhone());
 
-            phone = phoneRepository.save(phone);
-            entity.getPhones().add(phone);
-        }
+        dto.getPhones().forEach(x -> entity.getPhones()
+                .add(phoneRepository.save(new Phone(null, x.getName(), x.getPhone()))));
 
-        for (AddressDTO addressDTO : dto.getAddresses()) {
-            Address address  = new Address();
-            address.setName(addressDTO.getName());
-            address.setAddress(addressDTO.getAddress());
-            address.setNumber(addressDTO.getNumber());
-
-            address = addressRepository.save(address);
-            entity.getAddresses().add(address);
-        }
+        dto.getAddresses().forEach(x -> entity.getAddresses()
+                .add(addressRepository.save(new Address(null, x.getName(), x.getAddress(), x.getNumber()))));
     }
 }

@@ -1,10 +1,13 @@
 package com.josemeurer.DeliveryKing.dtos;
 
+import com.josemeurer.DeliveryKing.services.validation.UserInsertValid;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@UserInsertValid
 public class UserInsertDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
