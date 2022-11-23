@@ -22,12 +22,12 @@ public class Address implements Serializable {
     private String address;
 
     @Column(nullable = false)
-    private Integer number;
+    private String number;
 
     public Address() {
     }
 
-    public Address(Long id, String name, String address, Integer number) {
+    public Address(Long id, String name, String address, String number) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -58,11 +58,11 @@ public class Address implements Serializable {
         this.address = address;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

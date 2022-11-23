@@ -33,6 +33,8 @@ public class SecurityConfig {
     private static final String[] PUBLIC = { "/h2-console/**" };
     private static final String[] GET_PUBLIC = { "/products/**", "/categories/**" };
 
+    private static final String[] POST_PUBLIC = {"/users"};
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -54,6 +56,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(auth -> auth.antMatchers(PUBLIC).permitAll()
                         .antMatchers(HttpMethod.GET, GET_PUBLIC).permitAll()
+                        .antMatchers(HttpMethod.POST, POST_PUBLIC).not().authenticated()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

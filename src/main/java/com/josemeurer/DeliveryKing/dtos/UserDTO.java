@@ -1,7 +1,5 @@
 package com.josemeurer.DeliveryKing.dtos;
 
-import com.josemeurer.DeliveryKing.entities.Address;
-import com.josemeurer.DeliveryKing.entities.Phone;
 import com.josemeurer.DeliveryKing.entities.User;
 
 import java.io.Serial;
@@ -9,7 +7,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UserDTO implements Serializable {
     @Serial
@@ -26,21 +23,24 @@ public class UserDTO implements Serializable {
     private Set<PhoneDTO> phones = new HashSet<>();
     private Set<AddressDTO> addresses = new HashSet<>();
 
+    private Set<RoleDTO> roles = new HashSet<>();
+
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String name, String email, Instant creation, Instant updated, Set<Phone> phones, Set<Address> addresses) {
+    public UserDTO(Long id, String name, String email, Instant creation, Instant updated) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.creation = creation;
         this.updated = updated;
-        this.phones = phones.stream().map(PhoneDTO::new).collect(Collectors.toSet());
-        this.addresses = addresses.stream().map(AddressDTO::new).collect(Collectors.toSet());
     }
 
     public UserDTO(User entity) {
-        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getCreation(), entity.getUpdated(), entity.getPhones(), entity.getAddresses());
+        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getCreation(), entity.getUpdated());
+        entity.getPhones().forEach(x -> phones.add(new PhoneDTO(x)));
+        entity.getAddresses().forEach(x -> addresses.add(new AddressDTO(x)));
+        entity.getRoles().forEach(x -> roles.add(new RoleDTO(x)));
     }
 
     public Long getId() {
@@ -97,5 +97,13 @@ public class UserDTO implements Serializable {
 
     public void setAddresses(Set<AddressDTO> addresses) {
         this.addresses = addresses;
+    }
+
+    public Set<RoleDTO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleDTO> roles) {
+        this.roles = roles;
     }
 }

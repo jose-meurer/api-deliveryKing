@@ -12,12 +12,12 @@ public class AddressDTO implements Serializable {
     private Long id;
     private String name;
     private String address;
-    private Integer number;
+    private String number;
 
     public AddressDTO() {
     }
 
-    public AddressDTO(Long id, String name, String address, Integer number) {
+    public AddressDTO(Long id, String name, String address, String number) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -52,11 +52,11 @@ public class AddressDTO implements Serializable {
         this.address = address;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 }
