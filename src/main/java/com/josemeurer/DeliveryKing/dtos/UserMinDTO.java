@@ -1,5 +1,7 @@
 package com.josemeurer.DeliveryKing.dtos;
 
+import com.josemeurer.DeliveryKing.entities.User;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
@@ -24,6 +26,10 @@ public class UserMinDTO implements Serializable {
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public UserMinDTO(User entity) {
+        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getCreatedAt(), entity.getUpdatedAt());
     }
 
     public Long getId() {

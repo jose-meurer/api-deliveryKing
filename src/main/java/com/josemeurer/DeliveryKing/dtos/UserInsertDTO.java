@@ -29,7 +29,7 @@ public class UserInsertDTO extends UserMinDTO implements Serializable {
     }
 
     public UserInsertDTO(User entity, Set<Phone> phones, Set<Address> addresses) {
-        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getCreatedAt(), entity.getUpdatedAt());
+        super(entity);
         phones.forEach(x -> this.phones.add(new PhoneDTO(x)));
         addresses.forEach(x -> this.addresses.add(new AddressDTO(x)));
     }

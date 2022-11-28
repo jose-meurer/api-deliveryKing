@@ -27,7 +27,7 @@ public class UserMaxDTO extends UserMinDTO implements Serializable {
     }
 
     public UserMaxDTO(User entity, Set<Phone> phones, Set<Address> addresses, Set<Role> roles) {
-        super(entity.getId(), entity.getName(), entity.getEmail(), entity.getCreatedAt(), entity.getUpdatedAt());
+        super(entity);
         phones.forEach(x -> this.phones.add(new PhoneDTO(x)));
         addresses.forEach(x -> this.addresses.add(new AddressDTO(x)));
         roles.forEach(x -> this.roles.add(new RoleDTO(x)));
