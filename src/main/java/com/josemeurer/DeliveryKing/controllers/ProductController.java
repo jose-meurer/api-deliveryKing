@@ -27,7 +27,7 @@ public class ProductController {
         return ResponseEntity.ok(page);
     }
 
-    @PreAuthorize("permitAll()") //test
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         ProductDTO dto = productService.findById(id);

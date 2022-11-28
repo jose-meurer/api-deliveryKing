@@ -33,10 +33,10 @@ public class User implements UserDetails, Serializable {
     private String password;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant creation;
+    private Instant createdAt;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant updated;
+    private Instant updatedAt;
 
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
@@ -82,24 +82,24 @@ public class User implements UserDetails, Serializable {
         this.id = id;
     }
 
-    public Instant getCreation() {
-        return creation;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
     //Cria uma data quando a conta for criada
     @PrePersist
     public void  prePersist() {
-        creation = Instant.now();
+        createdAt = Instant.now();
     }
 
-    public Instant getUpdated() {
-        return updated;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
     //Gera uma nova data, sempre que a conta sofrer alguma atualizacao
     @PreUpdate
     public void preUpdate() {
-        updated = Instant.now();
+        updatedAt = Instant.now();
     }
 
     public String getName() {

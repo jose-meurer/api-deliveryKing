@@ -29,10 +29,10 @@ public class Product implements Serializable {
     private String imgUrl;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant creation;
+    private Instant createdAt;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant updated;
+    private Instant updatedAt;
 
     @Column(nullable = false)
     @ManyToMany
@@ -94,21 +94,21 @@ public class Product implements Serializable {
     }
 
     public Instant getCreated() {
-        return creation;
+        return createdAt;
     }
 
     @PrePersist
     public void  prePersist() {
-        creation = Instant.now();
+        createdAt = Instant.now();
     }
 
-    public Instant getUpdated() {
-        return updated;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
     @PreUpdate
     public void  preUpdate() {
-        updated = Instant.now();
+        updatedAt = Instant.now();
     }
 
     public Set<Category> getCategories() {

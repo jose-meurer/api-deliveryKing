@@ -42,7 +42,7 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    private Instant orderTime; //Hora que o pedido foi feito
+    private Instant createdAt; //Hora que o pedido foi feito
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant deliveryTime; //Hora que o pedido foi entregue
@@ -68,7 +68,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, String observation, Double productsPrice, Double deliveryFee, Double totalPrice, PaymentMethod paymentMethod, Double moneyChange, OrderStatus status, Instant orderTime, Instant deliveryTime, Address address, Deliveryman deliveryman, User user) {
+    public Order(Long id, String observation, Double productsPrice, Double deliveryFee, Double totalPrice, PaymentMethod paymentMethod, Double moneyChange, OrderStatus status, Instant createdAt, Instant deliveryTime, Address address, Deliveryman deliveryman, User user) {
         this.id = id;
         this.observation = observation;
         this.productsPrice = productsPrice;
@@ -77,7 +77,7 @@ public class Order implements Serializable {
         this.paymentMethod = paymentMethod;
         this.moneyChange = moneyChange;
         this.status = status;
-        this.orderTime = orderTime;
+        this.createdAt = createdAt;
         this.deliveryTime = deliveryTime;
         this.address = address;
         this.deliveryman = deliveryman;
@@ -148,13 +148,13 @@ public class Order implements Serializable {
         this.status = status;
     }
 
-    public Instant getOrderTime() {
-        return orderTime;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
     @PrePersist //Gera a data de quando o pedido foi feito
     public void prePersist() {
-        orderTime = Instant.now();
+        createdAt = Instant.now();
     }
 
     public Instant getDeliveryTime() {
