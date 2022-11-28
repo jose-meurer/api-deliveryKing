@@ -1,10 +1,8 @@
 package com.josemeurer.DeliveryKing.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
@@ -18,7 +16,6 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
@@ -30,7 +27,7 @@ public class SecurityConfig {
     @Autowired
     private Environment env;
 
-    private static final String[] PUBLIC = { "/h2-console/**" };
+    private static final String[] PUBLIC = { "/h2-console/**", "/login" };
     private static final String[] GET_PUBLIC = { "/products/**", "/categories/**" };
 
     private static final String[] POST_PUBLIC = {"/users"};
@@ -61,35 +58,22 @@ public class SecurityConfig {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
-                .cors().configurationSource(corsConfigurationSource())
-                .and()
-
                 .sessionManagement(session -> session.maximumSessions(1) //Limita o usuário a ter apenas 1 sessão ativa
                         .and().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //Nenhuma sessão será criada ou usada pelo Spring Security.
                 )
+                .cors(Customizer.withDefaults())
                 .csrf().disable(); //Desativar para utilizar postman
 
         return http.build();
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() { //Tudo liberado por enquanto
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));//Todas as rotas liberadas
-        corsConfiguration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*")); //Tudo liberado por enquanto
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
-
-    @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        FilterRegistrationBean<CorsFilter> bean =
-                new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
     }
 }
