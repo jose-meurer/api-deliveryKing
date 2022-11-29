@@ -16,13 +16,16 @@ public class AddressService {
     @Transactional
     public AddressDTO insert(AddressDTO dto) {
         //Adicionar regex
-        //Refatorar
 
         Address entity = new Address();
+        dtoToEntity(dto, entity);
+        entity = addressRepository.save(entity);
+        return new AddressDTO(entity);
+    }
+
+    private void dtoToEntity(AddressDTO dto, Address entity) {
         entity.setName(dto.getName());
         entity.setAddress(dto.getAddress());
         entity.setNumber(dto.getNumber());
-        entity = addressRepository.save(entity);
-        return new AddressDTO(entity);
     }
 }

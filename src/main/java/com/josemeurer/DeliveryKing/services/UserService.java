@@ -103,19 +103,11 @@ public class UserService {
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         entity.getPhones().clear();
+        dto.getPhones().stream().map(x -> phoneService.insert(x))
+                .forEach(x -> entity.getPhones().add(new Phone(x.getId(), x.getName(), x.getPhone())));
+
         entity.getAddresses().clear();
-
-        //Refatorar
-        for (PhoneDTO obj: dto.getPhones()) {
-            PhoneDTO phoneDto = phoneService.insert(obj);
-            entity.getPhones().add(new Phone(phoneDto.getId(), phoneDto.getName(), phoneDto.getPhone()));
-        }
-
-        //Refatorar
-        for (AddressDTO obj: dto.getAddresses()) {
-            AddressDTO addressDto = addressService.insert(obj);
-            entity.getAddresses().add(new Address(addressDto.getId(), addressDto.getName(),
-                    addressDto.getAddress(), addressDto.getNumber()));
-        }
+        dto.getAddresses().stream().map(x -> addressService.insert(x))
+                .forEach(x -> entity.getAddresses().add(new Address(x.getId(), x.getName(), x.getAddress(), x.getNumber())));
     }
 }

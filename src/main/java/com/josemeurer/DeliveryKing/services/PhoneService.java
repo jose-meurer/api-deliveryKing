@@ -16,12 +16,15 @@ public class PhoneService {
     @Transactional
     public PhoneDTO insert(PhoneDTO dto) {
         //Adicionar regex
-        //Refatorar
 
         Phone entity = new Phone();
-        entity.setName(dto.getName());
-        entity.setPhone(dto.getPhone());
+        dtoToEntity(dto, entity);
         entity = phoneRepository.save(entity);
         return new PhoneDTO(entity);
+    }
+
+    private void dtoToEntity(PhoneDTO dto, Phone entity) {
+        entity.setName(dto.getName());
+        entity.setPhone(dto.getPhone());
     }
 }
