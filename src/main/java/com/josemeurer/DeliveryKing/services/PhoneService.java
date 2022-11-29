@@ -23,6 +23,11 @@ public class PhoneService {
         return new PhoneDTO(entity);
     }
 
+    @Transactional
+    public PhoneDTO update(PhoneDTO dto) {
+         return null;
+    }
+
     private void dtoToEntity(PhoneDTO dto, Phone entity) {
         entity.setName(dto.getName());
         entity.setPhone(dto.getPhone());

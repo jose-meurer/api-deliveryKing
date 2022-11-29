@@ -6,30 +6,27 @@ import com.josemeurer.DeliveryKing.entities.User;
 import com.josemeurer.DeliveryKing.services.validation.UserInsertValid;
 
 import java.io.Serial;
-import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 @UserInsertValid
-public class UserInsertDTO extends UserMinDTO implements Serializable {
+public class UserInsertDTO extends UserMinDTO {
     @Serial
     private static final long serialVersionUID = 1L;
 
     private String password;
-
     private Set<PhoneDTO> phones = new HashSet<>();
     private Set<AddressDTO> addresses = new HashSet<>();
 
     public UserInsertDTO() {
     }
 
-    public UserInsertDTO(Long id, String name, String email, Instant createdAt, Instant updatedAt) {
-        super(id, name, email, createdAt, updatedAt);
+    public UserInsertDTO(Long id, String name, String email, String password) {
+        super(id, name, email);
     }
 
     public UserInsertDTO(User entity, Set<Phone> phones, Set<Address> addresses) {
-        super(entity);
+        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getPassword());
         phones.forEach(x -> this.phones.add(new PhoneDTO(x)));
         addresses.forEach(x -> this.addresses.add(new AddressDTO(x)));
     }

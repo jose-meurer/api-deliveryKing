@@ -3,6 +3,7 @@ package com.josemeurer.DeliveryKing.controllers;
 import com.josemeurer.DeliveryKing.dtos.UserInsertDTO;
 import com.josemeurer.DeliveryKing.dtos.UserMaxDTO;
 import com.josemeurer.DeliveryKing.dtos.UserMinDTO;
+import com.josemeurer.DeliveryKing.dtos.UserUpdateDTO;
 import com.josemeurer.DeliveryKing.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,13 @@ public class UserController {
     public ResponseEntity<Void> deleteMyProfile() {
         userService.deleteMyProfile();
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PutMapping(path = "/myprofile")
+    public ResponseEntity<UserMaxDTO> updateMyProfile(@Valid @RequestBody UserUpdateDTO updateDto) {
+        UserMaxDTO dto = userService.update(updateDto);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
