@@ -1,14 +1,14 @@
 package com.josemeurer.DeliveryKing.controllers;
 
 import com.josemeurer.DeliveryKing.dtos.UserDTO;
+import com.josemeurer.DeliveryKing.dtos.UserUpdateDTO;
 import com.josemeurer.DeliveryKing.services.MyProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/myprofile")
@@ -31,10 +31,10 @@ public class MyProfileController {
         return ResponseEntity.noContent().build();
     }
 
-//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-//    @PutMapping
-//    public ResponseEntity<UserDTO> updateMyProfile(@Valid @RequestBody UserUpdateDTO updateDto) {
-//        UserDTO dto = myProfileService.update(updateDto);
-//        return ResponseEntity.ok(dto);
-//    }
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PutMapping
+    public ResponseEntity<UserDTO> updateMyProfile(@Valid @RequestBody UserUpdateDTO updateDto) {
+        UserDTO dto = myProfileService.updateMyProfile(updateDto);
+        return ResponseEntity.ok(dto);
+    }
 }
