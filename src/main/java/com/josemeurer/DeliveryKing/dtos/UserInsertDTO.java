@@ -29,8 +29,8 @@ public class UserInsertDTO implements Serializable {
     private String phone;
 
     @NotBlank
-    private String password; //validar
-    private Set<AddressDTO> addresses = new HashSet<>(); //validar
+    private String password; //regex
+    private Set<AddressDTO> addresses = new HashSet<>(); //regex
 
     public UserInsertDTO() {
     }

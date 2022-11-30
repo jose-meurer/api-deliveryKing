@@ -1,9 +1,6 @@
 package com.josemeurer.DeliveryKing.controllers.exceptions;
 
-import com.josemeurer.DeliveryKing.services.exceptions.DatabaseException;
-import com.josemeurer.DeliveryKing.services.exceptions.ForbiddenException;
-import com.josemeurer.DeliveryKing.services.exceptions.ResourceNotFoundException;
-import com.josemeurer.DeliveryKing.services.exceptions.UnauthorizedException;
+import com.josemeurer.DeliveryKing.services.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -66,6 +63,18 @@ public class ResourceExceptionHandler {
         e.getBindingResult().getFieldErrors().forEach(
                 x -> err.addError(x.getField(), x.getDefaultMessage()));
 
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<StandardError> incorrectPassword(IncorrectPasswordException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError("Password exception");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 

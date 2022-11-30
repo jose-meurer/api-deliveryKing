@@ -1,15 +1,20 @@
 package com.josemeurer.DeliveryKing.services;
 
+import com.josemeurer.DeliveryKing.dtos.ChangePasswordDTO;
 import com.josemeurer.DeliveryKing.dtos.UserDTO;
 import com.josemeurer.DeliveryKing.dtos.UserUpdateDTO;
 import com.josemeurer.DeliveryKing.entities.User;
 import com.josemeurer.DeliveryKing.repositories.UserRepository;
 import com.josemeurer.DeliveryKing.services.exceptions.DatabaseException;
+import com.josemeurer.DeliveryKing.services.exceptions.IncorrectPasswordException;
 import com.josemeurer.DeliveryKing.services.exceptions.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MyProfileService {
 
     @Autowired
+    private static final Logger LOG = LoggerFactory.getLogger(MyProfileService.class);
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public UserDTO findMyProfile() {
@@ -56,5 +67,30 @@ public class MyProfileService {
     private User myAccount() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+
+    //add address
+
+
+    //remove address
+
+
+    //Change password
+
+    public void changePasswordMyProfile(ChangePasswordDTO dto) {
+        User entity = myAccount();
+
+        //refatorar
+
+        if (passwordEncoder.matches(dto.getOldPassword(), entity.getPassword())) {
+            entity.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+            userRepository.save(entity);
+            LOG.info("Correct Password");
+        }
+        else {
+            LOG.error("Incorrect Password");
+            throw new IncorrectPasswordException("Incorrect old password");
+        }
     }
 }

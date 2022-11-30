@@ -1,5 +1,6 @@
 package com.josemeurer.DeliveryKing.controllers;
 
+import com.josemeurer.DeliveryKing.dtos.ChangePasswordDTO;
 import com.josemeurer.DeliveryKing.dtos.UserDTO;
 import com.josemeurer.DeliveryKing.dtos.UserUpdateDTO;
 import com.josemeurer.DeliveryKing.services.MyProfileService;
@@ -36,5 +37,12 @@ public class MyProfileController {
     public ResponseEntity<UserDTO> updateMyProfile(@Valid @RequestBody UserUpdateDTO updateDto) {
         UserDTO dto = myProfileService.updateMyProfile(updateDto);
         return ResponseEntity.ok(dto);
+    }
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PutMapping(path = "/changepassword")
+    public ResponseEntity<Void> changePassword(@RequestBody ChangePasswordDTO dto) {
+        myProfileService.changePasswordMyProfile(dto);
+        return ResponseEntity.ok().build();
     }
 }

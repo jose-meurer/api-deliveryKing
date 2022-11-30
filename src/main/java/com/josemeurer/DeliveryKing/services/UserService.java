@@ -56,6 +56,9 @@ public class UserService {
         }
     }
 
+    //implementar no futuro adm poder atualizar conta usuario
+
+
     @Transactional
     public UserDTO insert(UserInsertDTO dto) {
         User entity = new User();
