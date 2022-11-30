@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_phone")
-public class Phone implements Serializable {
+@Table(name = "tb_address_user")
+public class AddressUser implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -15,20 +15,24 @@ public class Phone implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String phone;
+    private String address;
 
+    private String number;
 
-    public Phone() {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public AddressUser() {
     }
 
-    public Phone(Long id, String name, String phone) {
+    public AddressUser(Long id, String name, String address, String number, User user) {
         this.id = id;
         this.name = name;
-        this.phone = phone;
+        this.address = address;
+        this.number = number;
     }
 
     public Long getId() {
@@ -47,20 +51,36 @@ public class Phone implements Serializable {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Phone phone = (Phone) o;
-        return Objects.equals(id, phone.id);
+        AddressUser address = (AddressUser) o;
+        return Objects.equals(id, address.id);
     }
 
     @Override

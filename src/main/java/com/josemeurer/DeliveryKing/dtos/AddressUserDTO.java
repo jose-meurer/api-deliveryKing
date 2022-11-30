@@ -1,37 +1,31 @@
-package com.josemeurer.DeliveryKing.entities;
+package com.josemeurer.DeliveryKing.dtos;
 
-import javax.persistence.*;
+import com.josemeurer.DeliveryKing.entities.AddressUser;
+
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 
-@Entity
-@Table(name = "tb_address")
-public class Address implements Serializable {
+public class AddressUserDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
     private String address;
-
-    @Column(nullable = false)
     private String number;
 
-    public Address() {
+    public AddressUserDTO() {
     }
 
-    public Address(Long id, String name, String address, String number) {
+    public AddressUserDTO(Long id, String name, String address, String number) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.number = number;
+    }
+
+    public AddressUserDTO(AddressUser entity) {
+        this(entity.getId(), entity.getName(), entity.getAddress(), entity.getNumber());
     }
 
     public Long getId() {
@@ -64,18 +58,5 @@ public class Address implements Serializable {
 
     public void setNumber(String number) {
         this.number = number;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(id, address.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

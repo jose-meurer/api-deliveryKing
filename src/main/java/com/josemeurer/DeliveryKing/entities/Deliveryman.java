@@ -17,22 +17,15 @@ public class Deliveryman implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    private String phone;
+
     private String vehiclePlate;
 
     @OneToMany(mappedBy = "deliveryman")
     private Set<Order> orders = new HashSet<>();
 
-    @Column(nullable = false)
-    @ManyToMany
-    @JoinTable(name = "tb_deliveryman_phone",
-            joinColumns = @JoinColumn(name = "deliveryman_id"),
-            inverseJoinColumns = @JoinColumn(name = "phone_id")
-    )
-    private Set<Phone> phones = new HashSet<>();
 
 
     public Deliveryman() {
@@ -60,6 +53,14 @@ public class Deliveryman implements Serializable {
         this.name = name;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getVehiclePlate() {
         return vehiclePlate;
     }
@@ -68,9 +69,6 @@ public class Deliveryman implements Serializable {
         this.vehiclePlate = vehiclePlate;
     }
 
-    public Set<Phone> getPhones() {
-        return phones;
-    }
 
     public Set<Order> getOrders() {
         return orders;

@@ -2,7 +2,6 @@ package com.josemeurer.DeliveryKing.entities;
 
 import com.josemeurer.DeliveryKing.entities.enums.OrderStatus;
 import com.josemeurer.DeliveryKing.entities.enums.PaymentMethod;
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -25,20 +24,20 @@ public class Order implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String observation;
 
-    @Column(nullable = false)
+
     private Double productsPrice;
 
-    @Column(nullable = false)
+
     private Double deliveryFee;
 
-    @Column(nullable = false)
+
     private Double totalPrice;
 
-    @Column(nullable = false)
+
     private PaymentMethod paymentMethod;
     private Double moneyChange;
 
-    @Column(nullable = false)
+
     private OrderStatus status;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
@@ -47,28 +46,25 @@ public class Order implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant deliveryTime; //Hora que o pedido foi entregue
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "address_id")
-    private Address address;
+    private AddressUser address;
 
     @ManyToOne
     @JoinColumn(name = "deliveryman_id")
     private Deliveryman deliveryman;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotNull
     @OneToMany(mappedBy = "order")
     private Set<OrderProduct> orderProducts = new HashSet<>();
 
     public Order() {
     }
 
-    public Order(Long id, String observation, Double productsPrice, Double deliveryFee, Double totalPrice, PaymentMethod paymentMethod, Double moneyChange, OrderStatus status, Instant createdAt, Instant deliveryTime, Address address, Deliveryman deliveryman, User user) {
+    public Order(Long id, String observation, Double productsPrice, Double deliveryFee, Double totalPrice, PaymentMethod paymentMethod, Double moneyChange, OrderStatus status, Instant createdAt, Instant deliveryTime, AddressUser address, Deliveryman deliveryman, User user) {
         this.id = id;
         this.observation = observation;
         this.productsPrice = productsPrice;
@@ -165,11 +161,11 @@ public class Order implements Serializable {
         this.deliveryTime = deliveryTime;
     }
 
-    public Address getAddress() {
+    public AddressUser getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressUser address) {
         this.address = address;
     }
 

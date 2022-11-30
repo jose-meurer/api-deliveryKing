@@ -23,13 +23,13 @@ public class User implements UserDetails, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    private String phone;
+
     private String password;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
@@ -41,21 +41,8 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
-    @Column(nullable = false)
-    @OneToMany
-    @JoinTable(name = "tb_user_address",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "address_id")
-    )
-    private Set<Address> addresses = new HashSet<>();
-
-    @Column(nullable = false)
-    @OneToMany
-    @JoinTable(name = "tb_user_phone",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "phone_id")
-    )
-    private Set<Phone> phones = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<AddressUser> addresses = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tb_user_role",
@@ -67,7 +54,7 @@ public class User implements UserDetails, Serializable {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password) {
+    public User(Long id, String name, String email, String phone, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -118,6 +105,14 @@ public class User implements UserDetails, Serializable {
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -126,11 +121,7 @@ public class User implements UserDetails, Serializable {
         this.password = password;
     }
 
-    public Set<Phone> getPhones() {
-        return phones;
-    }
-
-    public Set<Address> getAddresses() {
+    public Set<AddressUser> getAddresses() {
         return addresses;
     }
 

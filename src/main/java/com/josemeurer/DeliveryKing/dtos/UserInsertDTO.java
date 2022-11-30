@@ -1,34 +1,62 @@
 package com.josemeurer.DeliveryKing.dtos;
 
-import com.josemeurer.DeliveryKing.entities.Address;
-import com.josemeurer.DeliveryKing.entities.Phone;
-import com.josemeurer.DeliveryKing.entities.User;
-import com.josemeurer.DeliveryKing.services.validation.UserInsertValid;
-
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@UserInsertValid
-public class UserInsertDTO extends UserMinDTO {
+public class UserInsertDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private Long id;
+    private String name;
+    private String email;
+    private String phone;
     private String password;
-    private Set<PhoneDTO> phones = new HashSet<>();
-    private Set<AddressDTO> addresses = new HashSet<>();
+    private Set<AddressUserDTO> addresses = new HashSet<>();
 
     public UserInsertDTO() {
     }
 
-    public UserInsertDTO(Long id, String name, String email, String password) {
-        super(id, name, email);
+    public UserInsertDTO(Long id, String name, String email, String phone, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
     }
 
-    public UserInsertDTO(User entity, Set<Phone> phones, Set<Address> addresses) {
-        this(entity.getId(), entity.getName(), entity.getEmail(), entity.getPassword());
-        phones.forEach(x -> this.phones.add(new PhoneDTO(x)));
-        addresses.forEach(x -> this.addresses.add(new AddressDTO(x)));
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {
@@ -39,19 +67,12 @@ public class UserInsertDTO extends UserMinDTO {
         this.password = password;
     }
 
-    public Set<PhoneDTO> getPhones() {
-        return phones;
-    }
-
-    public void setPhones(Set<PhoneDTO> phones) {
-        this.phones = phones;
-    }
-
-    public Set<AddressDTO> getAddresses() {
+    public Set<AddressUserDTO> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Set<AddressDTO> addresses) {
+    public void setAddresses(Set<AddressUserDTO> addresses) {
         this.addresses = addresses;
     }
 }
+

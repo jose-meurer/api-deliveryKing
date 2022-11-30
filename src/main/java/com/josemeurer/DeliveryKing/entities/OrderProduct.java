@@ -1,7 +1,5 @@
 package com.josemeurer.DeliveryKing.entities;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,21 +15,17 @@ public class OrderProduct implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Integer quantity;
 
     @Column(columnDefinition = "TEXT")
     private String observation;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(nullable = false)
     private Double priceHistoryProduct; //Valor na data da compra
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

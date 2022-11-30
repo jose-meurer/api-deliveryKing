@@ -1,9 +1,8 @@
 package com.josemeurer.DeliveryKing.controllers;
 
+import com.josemeurer.DeliveryKing.dtos.UserDTO;
 import com.josemeurer.DeliveryKing.dtos.UserInsertDTO;
-import com.josemeurer.DeliveryKing.dtos.UserMaxDTO;
 import com.josemeurer.DeliveryKing.dtos.UserMinDTO;
-import com.josemeurer.DeliveryKing.dtos.UserUpdateDTO;
 import com.josemeurer.DeliveryKing.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
@@ -23,37 +23,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //User
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @GetMapping(path = "/myprofile")
-    public ResponseEntity<UserMaxDTO> myProfile() {
-        UserMaxDTO dto = userService.findMyProfile();
-        return ResponseEntity.ok(dto);
-    }
-
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @DeleteMapping(path = "/myprofile")
-    public ResponseEntity<Void> deleteMyProfile() {
-        userService.deleteMyProfile();
-        return ResponseEntity.noContent().build();
-    }
-
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    @PutMapping(path = "/myprofile")
-    public ResponseEntity<UserMaxDTO> updateMyProfile(@Valid @RequestBody UserUpdateDTO updateDto) {
-        UserMaxDTO dto = userService.update(updateDto);
-        return ResponseEntity.ok(dto);
-    }
-
-    @PostMapping
-    public ResponseEntity<UserMaxDTO> insert(@Valid @RequestBody UserInsertDTO insertDto) {
-        UserMaxDTO dto = userService.insert(insertDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
-                .path("/{id}").buildAndExpand(dto.getId()).toUri();
-        return ResponseEntity.created(uri).body(dto);
-    }
-
-    //Admin
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Page<UserMinDTO>> findAllPaged(Pageable pageable) {
@@ -63,8 +32,8 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(path = "/{id}")
-    public ResponseEntity<UserMaxDTO> findById(@PathVariable Long id) {
-        UserMaxDTO dto = userService.findById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        UserDTO dto = userService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
@@ -73,5 +42,13 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO insertDto) {
+        UserDTO dto = userService.insert(insertDto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{id}").buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 }
