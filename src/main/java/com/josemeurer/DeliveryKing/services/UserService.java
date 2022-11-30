@@ -3,8 +3,8 @@ package com.josemeurer.DeliveryKing.services;
 import com.josemeurer.DeliveryKing.dtos.UserDTO;
 import com.josemeurer.DeliveryKing.dtos.UserInsertDTO;
 import com.josemeurer.DeliveryKing.dtos.UserMinDTO;
+import com.josemeurer.DeliveryKing.entities.Address;
 import com.josemeurer.DeliveryKing.entities.User;
-import com.josemeurer.DeliveryKing.repositories.AddressUserRepository;
 import com.josemeurer.DeliveryKing.repositories.RoleRepository;
 import com.josemeurer.DeliveryKing.repositories.UserRepository;
 import com.josemeurer.DeliveryKing.services.exceptions.DatabaseException;
@@ -30,12 +30,6 @@ public class UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private AddressUserService addressUserService;
-
-    @Autowired
-    private AddressUserRepository addressUserRepository;
-
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
@@ -52,7 +46,6 @@ public class UserService {
 
     public void delete(Long id) {
         try {
-            //Deletar telefones e enderecos
             userRepository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {
@@ -70,7 +63,6 @@ public class UserService {
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.getRoles().add(roleRepository.findByAuthority(INITIAL_USER_ROLE));
         entity = userRepository.save(entity);
-        addAddress(dto, entity);
         return new UserDTO(entity, entity.getAddresses(), entity.getRoles());
     }
 
@@ -78,13 +70,8 @@ public class UserService {
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
         entity.setPhone(dto.getPhone());
+
+        dto.getAddresses().forEach(x -> entity.getAddresses()
+                .add(new Address(null, x.getName(), x.getAddress(), x.getNumber())));
     }
-
-    private void addAddress(UserInsertDTO dto, User entity) {
-        //refatorar
-        dto.getAddresses().stream().map(x -> addressUserService.insert(entity.getId(), x))
-                .forEach(x -> entity.getAddresses().add(addressUserRepository.getReferenceById(x.getId())));
-    }
-
-
 }

@@ -48,7 +48,7 @@ public class Order implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "address_id")
-    private AddressUser address;
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "deliveryman_id")
@@ -64,7 +64,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, String observation, Double productsPrice, Double deliveryFee, Double totalPrice, PaymentMethod paymentMethod, Double moneyChange, OrderStatus status, Instant createdAt, Instant deliveryTime, AddressUser address, Deliveryman deliveryman, User user) {
+    public Order(Long id, String observation, Double productsPrice, Double deliveryFee, Double totalPrice, PaymentMethod paymentMethod, Double moneyChange, OrderStatus status, Instant createdAt, Instant deliveryTime, Address address, Deliveryman deliveryman, User user) {
         this.id = id;
         this.observation = observation;
         this.productsPrice = productsPrice;
@@ -161,11 +161,11 @@ public class Order implements Serializable {
         this.deliveryTime = deliveryTime;
     }
 
-    public AddressUser getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(AddressUser address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

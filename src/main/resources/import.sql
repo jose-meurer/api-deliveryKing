@@ -1,11 +1,15 @@
 --Users
-INSERT INTO tb_user (name, email, phone, created_at, password) VALUES ('Bob admin', 'bob@gmail.com', '11999000000', NOW(), '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
-INSERT INTO tb_user (name, email, phone, created_at, password) VALUES ('Ana user', 'ana@gmail.com', '11999123456', NOW(), '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (name, email, phone, created_at, password) VALUES ('Bob admin', 'bob@gmail.com', '(22)99140-2018', NOW(), '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (name, email, phone, created_at, password) VALUES ('Ana user', 'ana@gmail.com', '(80)99912-1199', NOW(), '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
 --Address
-INSERT INTO tb_address_user (name, address, number, user_id) VALUES ('casa', 'Rua limão', 123, 1);
-INSERT INTO tb_address_user (name, address, number, user_id) VALUES ('trabalho', 'Rua job', 112, 1);
-INSERT INTO tb_address_user (name, address, number, user_id) VALUES ('casa', 'Rua Brasil', 333, 2);
+INSERT INTO tb_address (name, address, number) VALUES ('casa', 'Rua limão', 123);
+INSERT INTO tb_address (name, address, number) VALUES ('trabalho', 'Rua job', 112);
+INSERT INTO tb_address (name, address, number) VALUES ('casa', 'Rua Brasil', 333);
+
+INSERT INTO tb_user_address (user_id, address_id) VALUES (1, 1);
+INSERT INTO tb_user_address (user_id, address_id) VALUES (2, 2);
+INSERT INTO tb_user_address (user_id, address_id) VALUES (2, 3);
 
 --Roles
 INSERT INTO tb_role (authority) VALUES ('ROLE_USER');

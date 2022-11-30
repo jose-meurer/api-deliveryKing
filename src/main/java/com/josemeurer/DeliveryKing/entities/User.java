@@ -41,8 +41,12 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Order> orders = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<AddressUser> addresses = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "tb_user_address",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "address_id")
+    )
+    private Set<Address> addresses = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "tb_user_role",
@@ -121,7 +125,7 @@ public class User implements UserDetails, Serializable {
         this.password = password;
     }
 
-    public Set<AddressUser> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 

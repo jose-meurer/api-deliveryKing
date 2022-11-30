@@ -1,38 +1,45 @@
 package com.josemeurer.DeliveryKing.dtos;
 
+import com.josemeurer.DeliveryKing.services.validation.UserInsertValid;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@UserInsertValid
 public class UserInsertDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-    private String name;
+    @Size(min = 4, max = 100, message = "Must be between 4 and 100 characters")
+    @NotBlank(message = "Required field")
+    private String name; //regex
+
+    @NotBlank
+    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
+            message = "Email invalid")
     private String email;
+
+    @NotBlank
+    @Pattern(regexp = "^\\([0-9]{2}\\)[0-9]{5}-[0-9]{4}$", message = "Cellphone invalid")
     private String phone;
-    private String password;
-    private Set<AddressUserDTO> addresses = new HashSet<>();
+
+    @NotBlank
+    private String password; //validar
+    private Set<AddressDTO> addresses = new HashSet<>(); //validar
 
     public UserInsertDTO() {
     }
 
-    public UserInsertDTO(Long id, String name, String email, String phone, String password) {
-        this.id = id;
+    public UserInsertDTO(String name, String email, String phone, String password) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -67,11 +74,11 @@ public class UserInsertDTO implements Serializable {
         this.password = password;
     }
 
-    public Set<AddressUserDTO> getAddresses() {
+    public Set<AddressDTO> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Set<AddressUserDTO> addresses) {
+    public void setAddresses(Set<AddressDTO> addresses) {
         this.addresses = addresses;
     }
 }

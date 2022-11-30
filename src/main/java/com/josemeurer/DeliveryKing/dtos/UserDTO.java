@@ -1,6 +1,6 @@
 package com.josemeurer.DeliveryKing.dtos;
 
-import com.josemeurer.DeliveryKing.entities.AddressUser;
+import com.josemeurer.DeliveryKing.entities.Address;
 import com.josemeurer.DeliveryKing.entities.Role;
 import com.josemeurer.DeliveryKing.entities.User;
 
@@ -21,7 +21,7 @@ public class UserDTO implements Serializable {
     private Instant createdAt;
     private Instant updatedAt;
 
-    private Set<AddressUserDTO> addresses = new HashSet<>();
+    private Set<AddressDTO> addresses = new HashSet<>();
     private Set<RoleDTO> roles = new HashSet<>();
 
     public UserDTO() {
@@ -36,13 +36,12 @@ public class UserDTO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public UserDTO(User entity, Set<AddressUser> addressUsers, Set<Role> roles) {
+    public UserDTO(User entity, Set<Address> addressUsers, Set<Role> roles) {
         this(entity.getId(), entity.getName(), entity.getEmail(), entity.getPhone(),
                 entity.getCreatedAt(), entity.getUpdatedAt());
 
-        addressUsers.forEach(x -> addresses.add
-                (new AddressUserDTO(x.getId(), x.getName(), x.getAddress(), x.getNumber())));
-        roles.forEach(x -> this.roles.add(new RoleDTO(x.getId(), x.getAuthority())));
+        addressUsers.forEach(x -> addresses.add(new AddressDTO(x)));
+        roles.forEach(x -> this.roles.add(new RoleDTO(x)));
     }
 
     public Long getId() {
@@ -93,11 +92,11 @@ public class UserDTO implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Set<AddressUserDTO> getAddresses() {
+    public Set<AddressDTO> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Set<AddressUserDTO> addresses) {
+    public void setAddresses(Set<AddressDTO> addresses) {
         this.addresses = addresses;
     }
 
