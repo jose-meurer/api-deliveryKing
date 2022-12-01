@@ -1,6 +1,7 @@
 package com.josemeurer.DeliveryKing.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -12,7 +13,9 @@ public class ChangePasswordDTO implements Serializable {
     private String oldPassword;
 
     @NotBlank
-    private String newPassword; //regex
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$",
+            message = "Your password must have: Minimum eight characters, at least one uppercase letter, one lowercase letter and one number")
+    private String newPassword;
 
     public ChangePasswordDTO() {
     }

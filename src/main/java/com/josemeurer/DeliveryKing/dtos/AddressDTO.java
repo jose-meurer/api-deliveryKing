@@ -2,6 +2,9 @@ package com.josemeurer.DeliveryKing.dtos;
 
 import com.josemeurer.DeliveryKing.entities.Address;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -10,9 +13,17 @@ public class AddressDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank
+    @Size(min = 3, max = 100, message = "Must be between 3 and 100 characters")
     private String name;
 
+    @NotBlank
+    @Size(min = 4, max = 100, message = "Invalid address")
     private String address;
+
+    @NotBlank
+    @Pattern(regexp = "^[0-9]{1,10}", message = "Invalid house number")
     private String number;
 
     public AddressDTO() {

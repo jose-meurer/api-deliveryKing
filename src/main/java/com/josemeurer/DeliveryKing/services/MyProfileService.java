@@ -1,8 +1,10 @@
 package com.josemeurer.DeliveryKing.services;
 
+import com.josemeurer.DeliveryKing.dtos.AddressDTO;
 import com.josemeurer.DeliveryKing.dtos.ChangePasswordDTO;
 import com.josemeurer.DeliveryKing.dtos.UserDTO;
 import com.josemeurer.DeliveryKing.dtos.UserUpdateDTO;
+import com.josemeurer.DeliveryKing.entities.Address;
 import com.josemeurer.DeliveryKing.entities.User;
 import com.josemeurer.DeliveryKing.repositories.UserRepository;
 import com.josemeurer.DeliveryKing.services.exceptions.DatabaseException;
@@ -17,6 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class MyProfileService {
@@ -58,6 +63,34 @@ public class MyProfileService {
         return new UserDTO(entity, entity.getAddresses(), entity.getRoles());
     }
 
+    @Transactional
+    public void changePasswordMyProfile(ChangePasswordDTO dto) {
+        User entity = myAccount();
+        if (passwordEncoder.matches(dto.getOldPassword(), entity.getPassword())) {
+            entity.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+            userRepository.save(entity);
+        }
+        else {
+            throw new IncorrectPasswordException("Incorrect old password");
+        }
+    }
+
+    @Transactional
+    public Set<AddressDTO> newAddress(AddressDTO dto) {
+        User entity = myAccount();
+
+        Address address = new Address();
+        address.setName(dto.getName());
+        address.setAddress(dto.getAddress());
+        address.setNumber(dto.getNumber());
+        entity.getAddresses().add(address);
+        entity = userRepository.save(entity);
+
+        Set<AddressDTO> setAddressDto = new HashSet<>();
+        entity.getAddresses().forEach(x -> setAddressDto.add(new AddressDTO(x)));
+        return setAddressDto;
+    }
+
     private void dtoToEntity(UserUpdateDTO dto, User entity) {
         entity.setName(dto.getName());
         entity.setPhone(dto.getPhone());
@@ -70,27 +103,5 @@ public class MyProfileService {
     }
 
 
-    //add address
-
-
     //remove address
-
-
-    //Change password
-
-    public void changePasswordMyProfile(ChangePasswordDTO dto) {
-        User entity = myAccount();
-
-        //refatorar
-
-        if (passwordEncoder.matches(dto.getOldPassword(), entity.getPassword())) {
-            entity.setPassword(passwordEncoder.encode(dto.getNewPassword()));
-            userRepository.save(entity);
-            LOG.info("Correct Password");
-        }
-        else {
-            LOG.error("Incorrect Password");
-            throw new IncorrectPasswordException("Incorrect old password");
-        }
-    }
 }

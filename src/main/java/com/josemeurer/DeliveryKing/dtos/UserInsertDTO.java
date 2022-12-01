@@ -17,7 +17,7 @@ public class UserInsertDTO implements Serializable {
 
     @Size(min = 4, max = 100, message = "Must be between 4 and 100 characters")
     @NotBlank(message = "Required field")
-    private String name; //regex
+    private String name; //regex /^[a-záàâãéèêíïóôõöúçñ ]+$/i
 
     @NotBlank
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
@@ -29,8 +29,10 @@ public class UserInsertDTO implements Serializable {
     private String phone;
 
     @NotBlank
-    private String password; //regex
-    private Set<AddressDTO> addresses = new HashSet<>(); //regex
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$",
+            message = "Your password must have: Minimum eight characters, at least one uppercase letter, one lowercase letter and one number")
+    private String password;
+    private Set<AddressDTO> addresses = new HashSet<>();
 
     public UserInsertDTO() {
     }
